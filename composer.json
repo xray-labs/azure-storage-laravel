@@ -42,6 +42,11 @@
             "Xray\\AzureStorageLaravel\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Xray\\Tests\\": "tests/"
+        }
+    },
     "minimum-stability": "stable",
     "config": {
         "allow-plugins": {
