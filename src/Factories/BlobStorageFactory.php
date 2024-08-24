@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Xray\AzureStorageLaravel\Factories;
 
+use Xray\AzureStoragePhpSdk\Authentication\MicrosoftEntraId;
 use Xray\AzureStoragePhpSdk\BlobStorage\Concerns\ValidateContainerName;
 use Xray\AzureStoragePhpSdk\BlobStorage\{BlobStorageClient, Config};
 use Xray\AzureStoragePhpSdk\Contracts\Authentication\Auth;
@@ -38,7 +39,7 @@ class BlobStorageFactory
 
     protected function getAuthenticationProvider(): Auth
     {
-        $provider = $this->config['authentication_provider'] ?? '';
+        $provider = $this->config['options']['authentication'] ?? MicrosoftEntraId::class;
 
         assert(
             !class_exists($provider) || !in_array(Auth::class, class_implements($provider)),
@@ -50,8 +51,8 @@ class BlobStorageFactory
 
     protected function getRequestProvider(Auth $auth, Config $config): RequestContract
     {
-        $protocol = ($this->config['secure'] ?? true) ? 'https' : 'http';
-        $domain   = $this->config['url'] ?? null;
+        $protocol = ($this->config['options']['secure'] ?? true) ? 'https' : 'http';
+        $domain   = $this->config['options']['url'] ?? null;
 
         return new Request($auth, $config, protocol: $protocol, domain: $domain);
     }
