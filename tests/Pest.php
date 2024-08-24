@@ -1,6 +1,6 @@
 <?php
 
-use Xray\Tests\TestCase;
+namespace Xray\Tests;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,9 +26,9 @@ uses(TestCase::class)->in('Feature', 'Unit');
 |
 */
 
-// expect()->extend('toBeOne', function () {
-//     return $this->toBe(1);
-// });
+expect()->extend('toBeOne', function () {
+    return $this->toBe(1);
+});
 
 /*
 |--------------------------------------------------------------------------
@@ -41,7 +41,7 @@ uses(TestCase::class)->in('Feature', 'Unit');
 |
 */
 
-// function something()
-// {
-//     // ..
-// }
+function something()
+{
+    // ..
+}
