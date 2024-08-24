@@ -63,12 +63,14 @@ class BlobStorageAdapter implements FilesystemAdapter
      * @throws InvalidArgumentException
      * @throws InvalidAuthenticationMethodException
      * @throws InvalidResourceTypeException
+     *
+     * @param array<string, mixed> $options
      */
     public function temporaryUrl(string $path, DateTimeInterface $expiration, array $options = []): string
     {
         $manager = $this->getClient()->blobs($this->container);
 
-        return $manager->temporaryUrl($path, $expiration, $options);
+        return $manager->temporaryUrl($path, $expiration);
     }
 
     /**
@@ -77,11 +79,14 @@ class BlobStorageAdapter implements FilesystemAdapter
      * @throws InvalidArgumentException
      * @throws InvalidAuthenticationMethodException
      * @throws InvalidResourceTypeException
+     *
+     * @param array<string, mixed> $options
+     * @return array{url: string, headers: array<string, string>}
      */
     public function temporaryUploadUrl(string $path, DateTimeInterface $expiration, array $options = []): array
     {
         $manager = $this->getClient()->blobs($this->container);
-        $uri     = $manager->temporaryUrl($path, $expiration, $options);
+        $uri     = $manager->temporaryUrl($path, $expiration);
 
         return [
             'url'     => $uri,
@@ -352,16 +357,16 @@ class BlobStorageAdapter implements FilesystemAdapter
     protected function createFileAttributes(string $path, File $file): FileAttributes
     {
         $extraMetadata = array_filter([
-            'contentMd5'   => $file?->getContentMD5(),
-            'creationTime' => $file?->getCreationTime()->getTimestamp(),
+            'contentMd5'   => $file->getContentMD5(),
+            'creationTime' => $file->getCreationTime()->getTimestamp(),
         ]);
 
         return new FileAttributes(
             $path,
             fileSize: $file->getContentLength(),
-            lastModified:$file->getLastModified()->getTimestamp(),
-            mimeType:$file->getContentType(),
-            extraMetadata:$extraMetadata,
+            lastModified: $file->getLastModified()->getTimestamp(),
+            mimeType: $file->getContentType(),
+            extraMetadata: $extraMetadata,
         );
     }
 

@@ -15,6 +15,7 @@ class BlobStorageFactory
 {
     use ValidateContainerName;
 
+    /** @param array{account: string, application: string, directory: string, secret: string, container?: string, options?: array{authentication?: string, url?: string, secure?: bool}} $config */
     public function __construct(protected array $config)
     {
         //
@@ -46,6 +47,7 @@ class BlobStorageFactory
             'The authentication provider must implement the Auth interface.',
         );
 
+        /** @var Auth $provider */
         return new $provider($this->config);
     }
 
