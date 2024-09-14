@@ -2,6 +2,8 @@
 
 namespace Xray\Tests;
 
+use ReflectionClass;
+
 /*
 |--------------------------------------------------------------------------
 | Test Case
@@ -13,7 +15,7 @@ namespace Xray\Tests;
 |
 */
 
-uses(TestCase::class)->in('Feature', 'Unit');
+pest()->extends(TestCase::class)->in('Feature', 'Unit');
 
 /*
 |--------------------------------------------------------------------------
@@ -41,7 +43,19 @@ uses(TestCase::class)->in('Feature', 'Unit');
 |
 */
 
-// function something()
-// {
-//     // ..
-// }
+function invade(string $property, object $object): mixed
+{
+    $items = explode('.', $property);
+
+    $reflection = new ReflectionClass($object);
+    $property   = $reflection->getProperty($items[0]);
+    $property->setAccessible(true);
+
+    $value = $property->getValue($object);
+
+    if (count($items) === 1 || !is_object($value)) {
+        return $value;
+    }
+
+    return invade(implode('.', array_slice($items, 1)), $value);
+}

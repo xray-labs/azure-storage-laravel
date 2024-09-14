@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace Xray\AzureStorageLaravel\Factories;
 
+use Xray\AzureStorageLaravel\Exceptions\InvalidArgumentException;
 use Xray\AzureStoragePhpSdk\Authentication\MicrosoftEntraId;
 use Xray\AzureStoragePhpSdk\BlobStorage\Concerns\ValidateContainerName;
 use Xray\AzureStoragePhpSdk\BlobStorage\{BlobStorageClient, Config};
 use Xray\AzureStoragePhpSdk\Contracts\Authentication\Auth;
 use Xray\AzureStoragePhpSdk\Contracts\Http\Request as RequestContract;
+use Xray\AzureStoragePhpSdk\Exceptions\InvalidArgumentException as XraySdkInvalidArgumentException;
 use Xray\AzureStoragePhpSdk\Http\Request;
 
 class BlobStorageFactory
@@ -33,7 +35,11 @@ class BlobStorageFactory
     {
         $container = (string)($this->config['container'] ?? '');
 
-        $this->validateContainerName($container);
+        try {
+            $this->validateContainerName($container);
+        } catch (XraySdkInvalidArgumentException) {
+            throw InvalidArgumentException::make("Invalid container name: [{$container}]");
+        }
 
         return $container;
     }
@@ -42,10 +48,9 @@ class BlobStorageFactory
     {
         $provider = $this->config['options']['authentication'] ?? MicrosoftEntraId::class;
 
-        assert(
-            !class_exists($provider) || !in_array(Auth::class, class_implements($provider)),
-            'The authentication provider must implement the Auth interface.',
-        );
+        if (!class_exists($provider) || !in_array(Auth::class, class_implements($provider))) {
+            throw InvalidArgumentException::make('The authentication provider must implement the Auth interface.');
+        }
 
         /** @var Auth $provider */
         return new $provider($this->config);

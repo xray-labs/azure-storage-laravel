@@ -6,6 +6,6 @@ parameters:
     ignoreErrors:
         -
             messages:
-                - '#Call to an undefined method Pest\\PendingCalls\\TestCall\:\:expect\(\)#'
+                - '#Call to an undefined method Pest\\PendingCalls\\TestCall\:\:(expect|preset)\(\)#'
             path: tests/
     

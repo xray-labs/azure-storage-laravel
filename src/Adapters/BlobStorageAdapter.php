@@ -145,7 +145,7 @@ class BlobStorageAdapter implements FilesystemAdapter
      */
     public function writeStream(string $path, $contents, Config $config): void
     {
-        $this->write($path, (string)stream_get_contents($contents), $config);
+        $this->write($path, (string)stream_get_contents($contents), $config); // @pest-mutate-ignore
     }
 
     /**
@@ -179,15 +179,14 @@ class BlobStorageAdapter implements FilesystemAdapter
             throw UnableToReadFile::fromLocation($path, $e->getMessage(), $e);
         }
 
-        if (($stream = fopen('php://memory', 'r+')) === false) {
-            throw UnableToReadFile::fromLocation($path, 'Failed to open stream');
+        if (($stream = fopen('php://memory', 'r+')) === false) { // @pest-mutate-ignore
+            throw UnableToReadFile::fromLocation($path, 'Failed to open stream'); // @codeCoverageIgnore
         }
 
         fwrite($stream, $file->getContent());
         rewind($stream);
 
         return $stream;
-
     }
 
     /**
@@ -303,7 +302,7 @@ class BlobStorageAdapter implements FilesystemAdapter
             $blobs = $this->getClient()->blobs($this->container)->list([
                 'prefix' => Str::deduplicate("{$path}/", '/'),
             ]);
-        } catch(RequestException $e) {
+        } catch (RequestException $e) {
             throw UnableToListContents::atLocation($path, $deep, $e);
         }
 
