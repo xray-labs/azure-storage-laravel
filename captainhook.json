@@ -27,7 +27,10 @@
                 "action": "./vendor/bin/phpstan analyse"
             },
             {
-                "action": "./vendor/bin/pest --coverage --min=100 --mutate"
+                "action": "./vendor/bin/pest --coverage --min=100 --parallel"
+            },
+            {
+                "action": "./vendor/bin/pest --mutate --min=100"
             }
         ]
     },

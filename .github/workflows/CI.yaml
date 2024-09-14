@@ -34,5 +34,8 @@ jobs:
       - name: Run PHPStan
         run: ./vendor/bin/phpstan analyse
 
-      - name: Run Pest With Mutation
-        run: ./vendor/bin/pest --coverage --min=100 --mutate
+      - name: Run Pest
+        run: ./vendor/bin/pest --coverage --min=100 --parallel
+
+      - name: Run Pest Mutation
+        run: ./vendor/bin/pest --mutate --min=100
