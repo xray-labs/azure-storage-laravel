@@ -21,7 +21,7 @@
     "require": {
         "php": "^8.3",
         "laravel/framework": "^11.20",
-        "xray/azure-storage-php-sdk": "dev-enhancement/update-pest-to-v3"
+        "xray/azure-storage-php-sdk": "^1.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
@@ -51,7 +51,7 @@
             "Xray\\Tests\\": "tests/"
         }
     },
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "config": {
         "allow-plugins": {
             "pestphp/pest-plugin": true,
