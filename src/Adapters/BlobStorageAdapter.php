@@ -66,7 +66,7 @@ class BlobStorageAdapter implements FilesystemAdapter
      *
      * @param array<string, mixed> $options
      */
-    public function temporaryUrl(string $path, DateTimeInterface $expiration, array $options = []): string
+    public function getTemporaryUrl(string $path, DateTimeInterface $expiration, array $options = []): string
     {
         $manager = $this->getClient()->blobs($this->container);
 
@@ -117,7 +117,8 @@ class BlobStorageAdapter implements FilesystemAdapter
      */
     public function directoryExists(string $path): bool
     {
-        throw new UnableToCheckExistence('Directory existence is not supported');
+        // IMPLEMENT: Implement directoryExists() method.
+        return false;
     }
 
     /**
@@ -299,7 +300,7 @@ class BlobStorageAdapter implements FilesystemAdapter
     public function listContents(string $path, bool $deep): iterable
     {
         try {
-            $blobs = $this->getClient()->blobs($this->container)->list([
+            $blobs = $this->getClient()->blobs($this->container)->list(queryParams: [
                 'prefix' => Str::deduplicate("{$path}/", '/'),
             ]);
         } catch (RequestException $e) {
@@ -309,7 +310,9 @@ class BlobStorageAdapter implements FilesystemAdapter
         /** @var Blob $blob */
         foreach ($blobs as $blob) {
             try {
-                yield $this->createFileAttributes($path, $blob->get());
+                $file = $blob->get();
+
+                yield $this->createFileAttributes($file->getFilename(), $file);
             } catch (RequestException $e) {
                 throw UnableToReadFile::fromLocation($blob->name, $e->getMessage(), $e);
             }

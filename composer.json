@@ -41,6 +41,13 @@
         { "name": "Silvio Pereira", "email": "sjpereira2000@gmail.com" },
         { "name": "Gabriel de Ramos", "email": "gabrielramos791@gmail.com" }
     ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Xray\\AzureStorageLaravel\\Providers\\AzureStorageServiceProvider"
+            ]
+        }
+    },
     "autoload": {
         "psr-4": {
             "Xray\\AzureStorageLaravel\\": "src/"
