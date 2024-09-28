@@ -1,0 +1,11 @@
+parameters:
+    level: 9
+    paths:
+        - src/
+        - tests/
+    ignoreErrors:
+        -
+            messages:
+                - '#Call to an undefined method Pest\\PendingCalls\\TestCall\:\:(expect|preset)\(\)#'
+            path: tests/
+    
