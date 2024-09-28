@@ -300,7 +300,7 @@ class BlobStorageAdapter implements FilesystemAdapter
     {
         try {
             $blobs = $this->getClient()->blobs($this->container)->list([
-                'prefix' => $path = Str::deduplicate("{$path}/", '/'),
+                'prefix' => Str::deduplicate("{$path}/", '/'),
             ]);
         } catch (RequestException $e) {
             throw UnableToListContents::atLocation($path, $deep, $e);
@@ -311,7 +311,7 @@ class BlobStorageAdapter implements FilesystemAdapter
             try {
                 $file = $blob->get();
 
-                yield $this->createFileAttributes($path . $file->getFilename(), $file);
+                yield $this->createFileAttributes($file->getFilename(), $file);
             } catch (RequestException $e) {
                 throw UnableToReadFile::fromLocation($blob->name, $e->getMessage(), $e);
             }
