@@ -378,7 +378,7 @@ it('should list contents', function (bool $withExceptionWhenListingFiles, bool $
     $manager = $manager->getMock()
         ->shouldReceive('list')
         ->once()
-        ->with(['prefix' => $path])
+        ->with([], ['prefix' => $path])
         ->andReturn(new Blobs($mockedManager, [
             ['Name' => 'path/file.txt'],
             ['Name' => 'path/directory'],

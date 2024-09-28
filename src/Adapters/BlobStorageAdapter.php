@@ -300,7 +300,7 @@ class BlobStorageAdapter implements FilesystemAdapter
     public function listContents(string $path, bool $deep): iterable
     {
         try {
-            $blobs = $this->getClient()->blobs($this->container)->list([
+            $blobs = $this->getClient()->blobs($this->container)->list(queryParams: [
                 'prefix' => Str::deduplicate("{$path}/", '/'),
             ]);
         } catch (RequestException $e) {
