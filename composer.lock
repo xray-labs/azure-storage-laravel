@@ -5406,16 +5406,16 @@
         },
         {
             "name": "xray/azure-storage-php-sdk",
-            "version": "v1.1.1",
+            "version": "v1.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/xray-labs/azure-storage-php-sdk.git",
-                "reference": "a449b4392dae6cdee43a10822c2659406bbe39d1"
+                "reference": "cec4c2f6a8b7f7b0734d100f9fb3425d29d7486e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/xray-labs/azure-storage-php-sdk/zipball/a449b4392dae6cdee43a10822c2659406bbe39d1",
-                "reference": "a449b4392dae6cdee43a10822c2659406bbe39d1",
+                "url": "https://api.github.com/repos/xray-labs/azure-storage-php-sdk/zipball/cec4c2f6a8b7f7b0734d100f9fb3425d29d7486e",
+                "reference": "cec4c2f6a8b7f7b0734d100f9fb3425d29d7486e",
                 "shasum": ""
             },
             "require": {
@@ -5460,9 +5460,9 @@
             "description": "Azure Storage PHP SDK",
             "support": {
                 "issues": "https://github.com/xray-labs/azure-storage-php-sdk/issues",
-                "source": "https://github.com/xray-labs/azure-storage-php-sdk/tree/v1.1.1"
+                "source": "https://github.com/xray-labs/azure-storage-php-sdk/tree/v1.1.2"
             },
-            "time": "2024-09-28T14:28:22+00:00"
+            "time": "2024-09-28T15:42:54+00:00"
         }
     ],
     "packages-dev": [

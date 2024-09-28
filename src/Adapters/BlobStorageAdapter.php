@@ -66,7 +66,7 @@ class BlobStorageAdapter implements FilesystemAdapter
      *
      * @param array<string, mixed> $options
      */
-    public function temporaryUrl(string $path, DateTimeInterface $expiration, array $options = []): string
+    public function getTemporaryUrl(string $path, DateTimeInterface $expiration, array $options = []): string
     {
         $manager = $this->getClient()->blobs($this->container);
 
@@ -117,7 +117,8 @@ class BlobStorageAdapter implements FilesystemAdapter
      */
     public function directoryExists(string $path): bool
     {
-        throw new UnableToCheckExistence('Directory existence is not supported');
+        // IMPLEMENT: Implement directoryExists() method.
+        return false;
     }
 
     /**

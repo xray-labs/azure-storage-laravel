@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use League\Flysystem\{Config, FileAttributes, UnableToCheckExistence, UnableToCopyFile, UnableToCreateDirectory, UnableToDeleteDirectory, UnableToDeleteFile, UnableToListContents, UnableToMoveFile, UnableToReadFile, UnableToRetrieveMetadata, UnableToSetVisibility, UnableToWriteFile, Visibility};
+use League\Flysystem\{Config, FileAttributes, UnableToCopyFile, UnableToCreateDirectory, UnableToDeleteDirectory, UnableToDeleteFile, UnableToListContents, UnableToMoveFile, UnableToReadFile, UnableToRetrieveMetadata, UnableToSetVisibility, UnableToWriteFile, Visibility};
 use Pest\Expectation;
 
 use function Pest\Laravel\{freezeTime, mock};
@@ -67,7 +67,7 @@ it('should generate a temporary URL', function (string $method, string|array $ex
     expect($adapter->{$method}('file.txt', now()->addMinutes(5)))
         ->toBe($expected);
 })->with([
-    'For the given path'        => ['temporaryUrl', 'http://assigned_url'],
+    'For the given path'        => ['getTemporaryUrl', 'http://assigned_url'],
     'For the given upload path' => ['temporaryUploadUrl', ['url' => 'http://assigned_url', 'headers' => []]],
 ]);
 
@@ -109,11 +109,17 @@ it('should validate unavailable methods', function (string $method, string $exce
     expect(fn () => $adapter->{$method}(...$args))
         ->toThrow($exception);
 })->with([
-    'Directory Exists' => ['directoryExists', UnableToCheckExistence::class, ['path']],
     'Delete Directory' => ['deleteDirectory', UnableToDeleteDirectory::class, ['path']],
     'Create Directory' => ['createDirectory', UnableToCreateDirectory::class, ['path', new Config()]],
     'Set Visibility'   => ['setVisibility', UnableToSetVisibility::class, ['path', 'public']],
 ]);
+
+it('should validate the directory exists method', function () {
+    $adapter = createAdapterToBlobStorageAdapterTest();
+
+    expect($adapter->directoryExists('path'))
+        ->toBeFalse();
+});
 
 it('should write contents', function (string $method, mixed $contents, bool $throws) {
     freezeTime();
